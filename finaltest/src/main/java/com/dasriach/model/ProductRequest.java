@@ -1,12 +1,9 @@
 package com.dasriach.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.redis.core.RedisHash;
 
-import java.io.Serializable;
 
-@RedisHash("Products")
-public class ProductRequest implements Serializable {
+public class ProductRequest {
     @JsonProperty("id")
     private String productId;
     @JsonProperty("name")

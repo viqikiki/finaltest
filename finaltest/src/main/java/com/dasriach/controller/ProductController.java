@@ -1,6 +1,8 @@
 package com.dasriach.controller;
+import com.dasriach.model.ProductRedis;
 import com.dasriach.model.ProductRequest;
 import com.dasriach.model.ResponseProduct;
+import com.dasriach.repository.ProductRepository;
 import org.hibernate.annotations.Cache;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,26 +25,31 @@ import java.util.logging.Logger;
 @RestController
 @CrossOrigin()
 @RequestMapping("/api")
-@EnableCaching
 public class ProductController {
     private static String uri = "http://dev3.dansmultipro.co.id/mock/preprod-web/scrt/esb/v1/offer/reseller?menu_id=ML3_DP_03";
 
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    ProductRepository productRepository;
 
     @GetMapping("/product")
-    @Cacheable(value = "Products", key = "{#id, #name, #price}")
     public @ResponseBody List<ProductRequest> getPro(){
             final RestTemplate restTemplate = new RestTemplate();
-
             List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
             MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
             converter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
             messageConverters.add(converter);
             restTemplate.setMessageConverters(messageConverters);
-
         ResponseEntity<ResponseProduct> respond = restTemplate.getForEntity(uri, ResponseProduct.class);
         ResponseProduct produk = respond.getBody();
+        ProductRedis productRedis = new ProductRedis();
+        for (int i=0; i<produk.getOffer().size(); i++){
+            productRedis.setId(produk.getOffer().get(i).getProductId());
+            productRedis.setName(produk.getOffer().get(i).getProductName());
+            productRedis.setPrice(produk.getOffer().get(i).getProductPrice());
+        }
+        productRepository.save(productRedis);
         return produk.getOffer();
     }
 }

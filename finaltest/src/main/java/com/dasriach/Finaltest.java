@@ -23,14 +23,37 @@ import java.util.Collections;
 import java.util.List;
 
 @SpringBootApplication
+@EnableCaching
 public class Finaltest {
+	@Bean
+	public RestTemplate getRestTemplate(){
+		final RestTemplate restTemplate = new RestTemplate();
+
+		List<HttpMessageConverter<?>> messageConverters = new ArrayList<>();
+		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+		converter.setSupportedMediaTypes(Collections.singletonList(MediaType.ALL));
+		messageConverters.add(converter);
+		restTemplate.setMessageConverters(messageConverters);
+
+		return restTemplate;
+	}
+
+	@Bean
+	JedisConnectionFactory jedisConnectionFactory() {
+		return new JedisConnectionFactory();
+	}
+
+	@Bean
+	public RedisTemplate<String, Object> redisTemplate() {
+		final RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
+		template.setConnectionFactory(jedisConnectionFactory());
+		template.setValueSerializer(new GenericToStringSerializer<Object>(Object.class));
+		return template;
+	}
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(Finaltest.class, args);
 	}
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
 }

@@ -33,8 +33,13 @@ public class Trans {
         return activation_id;
     }
 
-    public void setActivation_id(String activation_id) {
-        this.activation_id = activation_id;
+    public int getCreated_by() {
+        return created_by;
+    }
+
+
+    public void setCreated_by(int created_by) {
+        this.created_by = created_by;
     }
 
     public String getTransaction_id() {
@@ -75,13 +80,5 @@ public class Trans {
 
     public void setProduct_name(String product_name) {
         this.product_name = product_name;
-    }
-
-    public int getCreated_by() {
-        return created_by;
-    }
-
-    public void setCreated_by(int created_by) {
-        this.created_by = created_by;
     }
 }

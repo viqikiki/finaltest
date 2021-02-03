@@ -2,15 +2,16 @@ package com.dasriach.model;
 
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
 
+@RedisHash("token")
 public class Package implements Serializable {
     @Id
     private String token;
-
     private String msisdn;
-    private String productId;
+    private String product_id;
 
     public String getToken() {
         return token;
@@ -28,11 +29,11 @@ public class Package implements Serializable {
         this.msisdn = msisdn;
     }
 
-    public String getProductId() {
-        return productId;
+    public String getProduct_id() {
+        return product_id;
     }
 
-    public void setProductId(String productId) {
-        this.productId = productId;
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
     }
 }
