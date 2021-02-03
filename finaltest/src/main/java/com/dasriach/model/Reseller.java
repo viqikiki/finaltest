@@ -3,7 +3,6 @@ package com.dasriach.model;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Table(name ="package_activation")
 public class Reseller {
     private String msisdn;
     private String productId;

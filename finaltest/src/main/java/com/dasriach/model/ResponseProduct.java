@@ -4,14 +4,13 @@ import java.util.List;
 
 public class ResponseProduct {
 
-    private List<ProductRequest> product;
-    private Trans transaction;
+    private List<ProductRequest> offer;
 
-    public List<ProductRequest> getProduct(){
-        return product;
+    public void setOffer(List<ProductRequest> offer) {
+        this.offer = offer;
     }
 
-    public Trans getTransaction(){
-        return transaction;
+    public List<ProductRequest> getOffer(){
+        return offer;
     }
 }

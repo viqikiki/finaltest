@@ -19,14 +19,14 @@ public class PackageRepository {
     }
 
     public void savePackage(Package pack){
-        hashOperations.put("PACKAGE",pack.getMsisdn(),pack);
+        hashOperations.put("PACKAGE",pack.getToken(),pack);
     }
 
     public List<Package> findAll(){
         return hashOperations.values("PACKAGE");
     }
 
-    public Package findById(Integer id){
+    public Package findById(String id){
         return (Package) hashOperations.get("PACKAGE",id);
 
     }
